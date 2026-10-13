@@ -1,0 +1,289 @@
+{
+  "xray": {
+    "Fractured": {
+      "description": "A bone fracture is a complete or partial break in the bone, often caused by trauma, overuse, or conditions that weaken the bones such as osteoporosis. X-ray imaging reveals discontinuity in the bone structure.",
+      "causes": [
+        "Traumatic injury (falls, accidents, sports)",
+        "Stress fractures from repetitive force",
+        "Osteoporosis or bone-weakening conditions",
+        "Pathological fractures from bone tumors",
+        "High-impact collisions or direct blows"
+      ],
+      "symptoms": [
+        "Acute pain at the fracture site",
+        "Swelling and bruising around the area",
+        "Deformity or abnormal positioning of limb",
+        "Difficulty bearing weight or moving the affected area",
+        "Tenderness when touched"
+      ],
+      "risk_factors": [
+        "Age (children and elderly are more susceptible)",
+        "Osteoporosis or low bone density",
+        "High-impact sports participation",
+        "Nutritional deficiencies (calcium, vitamin D)",
+        "Previous fracture history"
+      ],
+      "treatment": [
+        "Immobilization with cast or splint",
+        "Surgical fixation (plates, screws, rods) for complex fractures",
+        "Pain management with NSAIDs or prescribed medications",
+        "Physical therapy for rehabilitation",
+        "Follow-up imaging to monitor healing"
+      ],
+      "prevention": [
+        "Adequate calcium and vitamin D intake",
+        "Regular weight-bearing exercise",
+        "Fall prevention measures for elderly",
+        "Proper protective gear during sports",
+        "Bone density screening for at-risk individuals"
+      ]
+    },
+    "Not Fractured": {
+      "description": "The X-ray examination shows normal bone structure with no evidence of fracture, dislocation, or significant bony abnormality. The cortical margins are intact and the trabecular pattern is normal.",
+      "causes": [],
+      "symptoms": [],
+      "risk_factors": [],
+      "treatment": [
+        "No treatment required for bone pathology",
+        "If symptoms persist, consider soft tissue evaluation (MRI/ultrasound)",
+        "Routine follow-up if clinically indicated",
+        "Symptomatic treatment for any soft tissue pain"
+      ],
+      "prevention": [
+        "Maintain healthy bone density through diet and exercise",
+        "Regular health check-ups",
+        "Adequate nutrition and hydration",
+        "Avoid unnecessary radiation exposure"
+      ]
+    }
+  },
+  "mri": {
+    "Glioma": {
+      "description": "Glioma is a type of brain tumor that originates from glial cells, which support and nourish neurons. Gliomas are the most common primary brain tumors and can range from low-grade (slow-growing) to high-grade (aggressive, e.g., glioblastoma).",
+      "causes": [
+        "Genetic mutations in glial cells",
+        "Inherited genetic syndromes (Li-Fraumeni, neurofibromatosis)",
+        "Environmental factors (ionizing radiation exposure)",
+        "Spontaneous cellular mutations",
+        "Unknown etiology in most cases"
+      ],
+      "symptoms": [
+        "Persistent headaches, often worse in the morning",
+        "Seizures (new onset)",
+        "Progressive neurological deficits",
+        "Personality or cognitive changes",
+        "Nausea, vomiting, and vision problems"
+      ],
+      "risk_factors": [
+        "Prior radiation therapy to the head",
+        "Family history of brain tumors",
+        "Age (more common in adults 45–65)",
+        "Genetic conditions (NF1, NF2, tuberous sclerosis)",
+        "Male sex (slightly higher incidence)"
+      ],
+      "treatment": [
+        "Surgical resection (maximal safe removal)",
+        "Radiation therapy (external beam, stereotactic radiosurgery)",
+        "Chemotherapy (temozolomide is standard for high-grade)",
+        "Targeted therapy and immunotherapy (emerging options)",
+        "Supportive care: corticosteroids, anti-epileptics"
+      ],
+      "prevention": [
+        "No established prevention methods",
+        "Minimize unnecessary radiation exposure",
+        "Genetic counseling for familial syndromes",
+        "Regular neurological check-ups if at risk",
+        "Early detection through imaging if symptomatic"
+      ]
+    },
+    "Meningioma": {
+      "description": "Meningioma is a tumor arising from the meninges, the protective membranes surrounding the brain and spinal cord. Most meningiomas are benign (WHO Grade I) and grow slowly, but some can be atypical or malignant.",
+      "causes": [
+        "Abnormal growth of arachnoid cap cells",
+        "Prior cranial radiation exposure",
+        "Hormonal influences (progesterone receptors common)",
+        "Genetic mutations (NF2 gene on chromosome 22)",
+        "Unknown in most sporadic cases"
+      ],
+      "symptoms": [
+        "Gradual onset headaches",
+        "Vision changes or double vision",
+        "Hearing loss or tinnitus",
+        "Memory problems and confusion",
+        "Weakness in arms or legs"
+      ],
+      "risk_factors": [
+        "Female sex (2:1 female-to-male ratio)",
+        "Age (peak incidence in 60s–70s)",
+        "Prior radiation to the head",
+        "Neurofibromatosis type 2 (NF2)",
+        "Obesity and hormonal factors"
+      ],
+      "treatment": [
+        "Observation with serial imaging for small asymptomatic tumors",
+        "Surgical excision for symptomatic or growing tumors",
+        "Stereotactic radiosurgery (Gamma Knife) for small tumors",
+        "Conventional radiation therapy for residual/recurrent tumors",
+        "Medications for symptom management"
+      ],
+      "prevention": [
+        "No established prevention methods",
+        "Avoid unnecessary cranial radiation",
+        "Regular imaging follow-up if NF2 is present",
+        "Maintain healthy weight",
+        "Prompt evaluation of new neurological symptoms"
+      ]
+    },
+    "No Tumor": {
+      "description": "The MRI examination shows normal brain parenchymal signal and structure. No abnormal masses, enhancement, or significant structural abnormality is detected. Ventricular size and sulcal pattern appear within normal limits.",
+      "causes": [],
+      "symptoms": [],
+      "risk_factors": [],
+      "treatment": [
+        "No treatment required for brain pathology",
+        "Address presenting symptoms if any (e.g., headache management)",
+        "Routine follow-up as clinically indicated",
+        "Consider alternative diagnoses if symptoms persist"
+      ],
+      "prevention": [
+        "Maintain overall brain health through exercise and diet",
+        "Cognitive stimulation and social engagement",
+        "Adequate sleep and stress management",
+        "Regular health check-ups",
+        "Avoid excessive alcohol and substance use"
+      ]
+    },
+    "Pituitary": {
+      "description": "Pituitary tumor (adenoma) is a growth in the pituitary gland, a small gland at the base of the brain that controls hormone production. Most pituitary tumors are benign and can be functional (hormone-secreting) or non-functional.",
+      "causes": [
+        "Sporadic mutations in pituitary cells",
+        "Genetic syndromes (MEN1, Carney complex, McCune-Albright)",
+        "Abnormal cell proliferation in the anterior pituitary",
+        "Unknown etiology in most cases",
+        "Rarely associated with familial isolated pituitary adenoma"
+      ],
+      "symptoms": [
+        "Vision changes (bitemporal hemianopia)",
+        "Hormonal imbalances (excess or deficiency)",
+        "Persistent headaches",
+        "Fatigue, weight changes, and mood disturbances",
+        "In women: menstrual irregularities; in men: erectile dysfunction"
+      ],
+      "risk_factors": [
+        "Family history of pituitary tumors or MEN1 syndrome",
+        "Age (most common in adults 30–60)",
+        "No significant gender predilection",
+        "Genetic predisposition syndromes",
+        "Prior head/pituitary radiation (rare)"
+      ],
+      "treatment": [
+        "Transsphenoidal surgery (minimally invasive resection)",
+        "Medication (dopamine agonists for prolactinomas, somatostatin analogs)",
+        "Radiation therapy for residual or recurrent tumors",
+        "Hormone replacement therapy if pituitary function is impaired",
+        "Regular endocrine and ophthalmologic follow-up"
+      ],
+      "prevention": [
+        "No established prevention methods",
+        "Genetic screening for familial syndromes",
+        "Regular endocrine evaluation if at risk",
+        "Early investigation of hormonal symptoms",
+        "Routine eye exams to detect visual field deficits early"
+      ]
+    }
+  },
+  "ct": {
+    "Normal": {
+      "description": "The CT scan shows normal organ morphology and tissue density. No masses, fluid collections, or significant pathological findings are identified.",
+      "causes": [],
+      "symptoms": [],
+      "risk_factors": [],
+      "treatment": [
+        "No treatment required",
+        "Routine follow-up as needed",
+        "Healthy lifestyle maintenance"
+      ],
+      "prevention": [
+        "Regular health check-ups",
+        "Balanced diet and exercise",
+        "Avoid smoking and excessive alcohol"
+      ]
+    },
+    "Lung Tumor": {
+      "description": "A mass or nodule detected in the lung parenchyma on CT imaging, which may represent primary lung cancer or metastatic disease. Further evaluation with biopsy and PET scan is typically recommended.",
+      "causes": [
+        "Cigarette smoking (primary cause of lung cancer)",
+        "Exposure to radon gas, asbestos, or other carcinogens",
+        "Genetic predisposition",
+        "Air pollution and secondhand smoke exposure",
+        "Metastasis from other primary cancers"
+      ],
+      "symptoms": [
+        "Persistent cough that worsens over time",
+        "Hemoptysis (coughing up blood)",
+        "Chest pain, especially with deep breathing",
+        "Unexplained weight loss and fatigue",
+        "Shortness of breath and wheezing"
+      ],
+      "risk_factors": [
+        "Smoking history",
+        "Occupational exposure to carcinogens",
+        "Family history of lung cancer",
+        "Age over 55",
+        "Chronic lung diseases (COPD, pulmonary fibrosis)"
+      ],
+      "treatment": [
+        "Surgical resection (lobectomy, pneumonectomy)",
+        "Chemotherapy and radiation therapy",
+        "Targeted therapy (EGFR, ALK inhibitors)",
+        "Immunotherapy (PD-L1 checkpoint inhibitors)",
+        "Palliative care for advanced stages"
+      ],
+      "prevention": [
+        "Smoking cessation",
+        "Radon testing in homes",
+        "Low-dose CT screening for high-risk individuals",
+        "Occupational safety and protective equipment",
+        "Healthy diet rich in fruits and vegetables"
+      ]
+    },
+    "Bone Fracture": {
+      "description": "CT imaging reveals a fracture — a break or crack in the bone. CT provides detailed cross-sectional views that can reveal complex fractures, fragments, and joint involvement not always visible on plain X-rays.",
+      "causes": [
+        "High-energy trauma (motor vehicle accidents)",
+        "Falls from height",
+        "Sports injuries",
+        "Osteoporosis or metabolic bone disease",
+        "Pathological fractures from bone tumors"
+      ],
+      "symptoms": [
+        "Severe pain at the fracture site",
+        "Swelling, bruising, and deformity",
+        "Inability to bear weight or move the affected area",
+        "Crepitus (grinding sensation)",
+        "Numbness or tingling if nerves are involved"
+      ],
+      "risk_factors": [
+        "Advanced age",
+        "Osteoporosis",
+        "Contact sports or high-risk activities",
+        "Nutritional deficiencies",
+        "Chronic steroid use"
+      ],
+      "treatment": [
+        "Surgical fixation for displaced or complex fractures",
+        "Immobilization with casts or braces",
+        "Pain management and anti-inflammatory medication",
+        "Physical therapy and rehabilitation",
+        "Bone stimulation therapy for non-union fractures"
+      ],
+      "prevention": [
+        "Calcium and vitamin D supplementation",
+        "Weight-bearing exercise for bone strength",
+        "Fall prevention programs for elderly",
+        "Proper safety equipment in sports",
+        "Regular bone density screening"
+      ]
+    }
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Apollo Hospitals",
+    "address": "21, Greams Lane, Off Greams Rd, Chennai",
+    "specialties": ["Neurology", "Neurosurgery", "Oncology", "Orthopedics", "Cardiology", "General Medicine", "Emergency", "Trauma", "Pulmonology", "Endocrinology", "Check-up"],
+    "rating": 4.5,
+    "phone": "+91-44-28293333",
+    "emergency": true
+  },
+  {
+    "name": "Fortis Memorial Research Institute",
+    "address": "Sector 44, Gurugram, Haryana",
+    "specialties": ["Neurosurgery", "Oncology", "Orthopedics", "Cardiology", "General Medicine", "Emergency", "Trauma", "Pulmonology", "Respiratory", "Check-up"],
+    "rating": 4.4,
+    "phone": "+91-124-4962200",
+    "emergency": true
+  },
+  {
+    "name": "AIIMS - All India Institute of Medical Sciences",
+    "address": "Sri Aurobindo Marg, Ansari Nagar, New Delhi",
+    "specialties": ["Neurology", "Neurosurgery", "Oncology", "Orthopedics", "Pulmonology", "Infectious Disease", "Geriatrics", "Psychiatry", "General Medicine", "Emergency", "Trauma", "Endocrinology", "Check-up", "ICU", "Thoracic Surgery", "Respiratory"],
+    "rating": 4.6,
+    "phone": "+91-11-26588500",
+    "emergency": true
+  },
+  {
+    "name": "Medanta - The Medicity",
+    "address": "CH Baktawar Singh Road, Sector 38, Gurugram",
+    "specialties": ["Neurology", "Neurosurgery", "Oncology", "Orthopedics", "Pulmonology", "General Medicine", "Emergency", "Endocrinology", "ICU", "Thoracic Surgery", "Trauma", "Check-up"],
+    "rating": 4.3,
+    "phone": "+91-124-4141414",
+    "emergency": true
+  },
+  {
+    "name": "Max Super Speciality Hospital",
+    "address": "1, 2, Press Enclave Rd, Saket, New Delhi",
+    "specialties": ["Neurology", "Oncology", "Orthopedics", "Cardiology", "General Medicine", "Emergency", "Pulmonology", "Endocrinology", "Trauma", "Check-up"],
+    "rating": 4.2,
+    "phone": "+91-11-26515050",
+    "emergency": true
+  },
+  {
+    "name": "Narayana Health City",
+    "address": "258/A, Bommasandra, Hosur Road, Bangalore",
+    "specialties": ["Neurosurgery", "Oncology", "Orthopedics", "Cardiology", "General Medicine", "Pulmonology", "Respiratory", "Emergency", "Check-up"],
+    "rating": 4.4,
+    "phone": "+91-80-71222222",
+    "emergency": true
+  },
+  {
+    "name": "Manipal Hospitals",
+    "address": "98, HAL Old Airport Rd, Bangalore",
+    "specialties": ["Neurology", "Neurosurgery", "Oncology", "Orthopedics", "Pulmonology", "General Medicine", "Emergency", "Trauma", "Endocrinology", "Check-up", "Infectious Disease"],
+    "rating": 4.3,
+    "phone": "+91-80-25024444",
+    "emergency": true
+  },
+  {
+    "name": "Kokilaben Dhirubhai Ambani Hospital",
+    "address": "Four Bungalows, Andheri West, Mumbai",
+    "specialties": ["Neurology", "Neurosurgery", "Oncology", "Orthopedics", "Cardiology", "General Medicine", "Emergency", "Pulmonology", "Check-up", "ICU"],
+    "rating": 4.5,
+    "phone": "+91-22-30999999",
+    "emergency": true
+  },
+  {
+    "name": "Tata Memorial Hospital",
+    "address": "Dr. E Borges Rd, Parel, Mumbai",
+    "specialties": ["Oncology", "Neurosurgery", "Thoracic Surgery", "General Medicine", "Pulmonology"],
+    "rating": 4.7,
+    "phone": "+91-22-24177000",
+    "emergency": false
+  },
+  {
+    "name": "Christian Medical College (CMC)",
+    "address": "Ida Scudder Rd, Vellore, Tamil Nadu",
+    "specialties": ["Neurology", "Neurosurgery", "Orthopedics", "General Medicine", "Pulmonology", "Infectious Disease", "Emergency", "Oncology", "Trauma", "Endocrinology", "Geriatrics", "Psychiatry", "Check-up"],
+    "rating": 4.6,
+    "phone": "+91-416-2281000",
+    "emergency": true
+  }
+]

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedScan AI - Medical Image Classification</title>
+    <meta name="description" content="AI-powered medical image analysis. Upload X-ray, MRI, or CT scans for instant diagnosis with triage scoring, explainable results, and hospital recommendations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- CHANGE 1: Chart.js for result visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo" aria-label="MedScan AI Home">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <span>MedScan AI</span>
+            </a>
+            <div class="nav-links" role="navigation" aria-label="Main navigation">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#upload" class="nav-link">Analyze</a>
+                <a href="#analytics" class="nav-link">Analytics</a>
+                <a href="#collab" class="nav-link">Collab</a>
+                <a href="#voice" class="nav-link">Voice</a>
+                <a href="#history" class="nav-link">History</a>
+                <a href="#assistant" class="nav-link">Assistant</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+            <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-particles" id="particles"></div>
+            <div class="hero-gradient"></div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                AI-Powered Healthcare · Clinical Grade
+            </div>
+            <h1 class="hero-title">
+                Next-Gen Medical<br>
+                <span class="gradient-text">Image Intelligence</span>
+            </h1>
+            <p class="hero-subtitle">
+                Upload X-ray, MRI, or CT scans for instant AI diagnosis with clinical triage scoring, explainable insights, and personalized hospital recommendations.
+            </p>
+            <div class="hero-actions">
+                <a href="#upload" class="btn btn-primary btn-large">
+                    <i class="fa-solid fa-microscope"></i>
+                    Start Analysis
+                </a>
+                <a href="#analytics" class="btn btn-secondary btn-large">
+                    <i class="fa-solid fa-chart-line"></i>
+                    View Analytics
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Accuracy</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Modalities</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Available</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="scanner-animation">
+                <div class="scanner-frame">
+                    <div class="scanner-corner tl"></div>
+                    <div class="scanner-corner tr"></div>
+                    <div class="scanner-corner bl"></div>
+                    <div class="scanner-corner br"></div>
+                    <div class="scanner-image">
+                        <i class="fa-solid fa-x-ray"></i>
+                    </div>
+                    <div class="scanner-line"></div>
+                </div>
+                <div class="scanner-glow"></div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section class="upload-section section-animate" id="upload">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Analyze Your <span class="gradient-text">Medical Image</span></h2>
+                <p class="section-subtitle">Upload X-ray, MRI, or CT scan for instant AI-powered diagnosis with clinical triage</p>
+            </div>
+
+            <!-- Patient Info -->
+            <div class="patient-info-card">
+                <h3><i class="fa-solid fa-user-injured"></i> Patient Information (Optional)</h3>
+                <div class="patient-fields">
+                    <input type="text" id="patientName" placeholder="Patient Name" class="patient-input" aria-label="Patient Name">
+                    <input type="number" id="patientAge" placeholder="Age" class="patient-input" min="1" max="150" aria-label="Patient Age">
+                    <select id="patientGender" class="patient-input" aria-label="Patient Gender">
+                        <option value="">Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="upload-container">
+                <div class="modality-selector" role="group" aria-label="Select imaging modality">
+                    <button class="modality-btn active" data-modality="xray" aria-label="X-Ray modality">
+                        <i class="fa-solid fa-x-ray"></i>
+                        <span>X-Ray</span>
+                    </button>
+                    <button class="modality-btn" data-modality="mri" aria-label="MRI modality">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>MRI</span>
+                    </button>
+                    <button class="modality-btn" data-modality="ct" aria-label="CT Scan modality">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>CT Scan</span>
+                    </button>
+                </div>
+
+                <div class="upload-zone" id="uploadZone" role="button" aria-label="Upload medical image" tabindex="0">
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drop your medical image here</h3>
+                        <p>or click to browse</p>
+                        <div class="upload-formats">
+                            <span>Supported: JPEG, PNG, BMP, WebP · Max 16MB</span>
+                        </div>
+                    </div>
+                    <div class="upload-preview" id="uploadPreview" style="display: none;">
+                        <img id="previewImage" src="" alt="Image preview">
+                        <button class="remove-image" id="removeImage" aria-label="Remove image">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="upload-loading" id="uploadLoading" style="display: none;">
+                        <div class="loader"></div>
+                        <p>Analyzing image with AI...</p>
+                    </div>
+                </div>
+
+                <!-- Enhancement Options -->
+                <div class="enhancement-options">
+                    <h4><i class="fa-solid fa-wand-magic-sparkles"></i> Image Enhancement</h4>
+                    <div class="enhancement-btns" role="group" aria-label="Enhancement options">
+                        <button class="enhance-btn active" data-enhance="auto">Auto</button>
+                        <button class="enhance-btn" data-enhance="brightness">Brightness</button>
+                        <button class="enhance-btn" data-enhance="contrast">Contrast</button>
+                        <button class="enhance-btn" data-enhance="edge">Edges</button>
+                        <button class="enhance-btn" data-enhance="histogram">Histogram</button>
+                    </div>
+                </div>
+
+                <!-- Image Comparison Slider -->
+                <div class="comparison-container" id="comparisonContainer">
+                    <div class="comparison-header">
+                        <h4><i class="fa-solid fa-arrows-left-right"></i> Before / After Comparison</h4>
+                        <button class="btn btn-secondary" id="closeComparison" style="padding: 6px 14px; font-size: 12px;">
+                            <i class="fa-solid fa-times"></i> Close
+                        </button>
+                    </div>
+                    <div class="comparison-slider-wrapper" id="comparisonSlider">
+                        <img class="comparison-original" id="compOriginal" src="" alt="Original image">
+                        <img class="comparison-enhanced" id="compEnhanced" src="" alt="Enhanced image">
+                        <div class="comparison-divider" id="compDivider"></div>
+                        <div class="comparison-handle" id="compHandle">
+                            <i class="fa-solid fa-grip-lines-vertical"></i>
+                        </div>
+                    </div>
+                    <div class="comparison-labels">
+                        <span>Original</span>
+                        <span>Enhanced</span>
+                    </div>
+                    <div class="comparison-metrics" id="compMetrics"></div>
+                </div>
+
+                <div class="upload-actions">
+                    <button class="btn btn-secondary" id="enhanceBtn" aria-label="Enhance image">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Enhance
+                    </button>
+                    <button class="btn btn-primary btn-large" id="analyzeBtn" disabled aria-label="Analyze image">
+                        <i class="fa-solid fa-microscope"></i>
+                        Analyze Image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="results" style="display: none;">
+        <div class="container">
+            <!-- SVG gradient definition for gauge -->
+            <svg width="0" height="0" style="position:absolute;">
+                <defs>
+                    <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#06b6d4"/>
+                        <stop offset="100%" stop-color="#6366f1"/>
+                    </linearGradient>
+                    <linearGradient id="urgencyGradientLow" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#10b981"/>
+                        <stop offset="100%" stop-color="#22d3ee"/>
+                    </linearGradient>
+                    <linearGradient id="urgencyGradientMod" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#fbbf24"/>
+                        <stop offset="100%" stop-color="#fb923c"/>
+                    </linearGradient>
+                    <linearGradient id="urgencyGradientHigh" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#fb923c"/>
+                        <stop offset="100%" stop-color="#f43f5e"/>
+                    </linearGradient>
+                    <linearGradient id="urgencyGradientCrit" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#f43f5e"/>
+                        <stop offset="100%" stop-color="#e11d48"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <div class="results-grid">
+                <!-- Prediction Card -->
+                <div class="result-card prediction-card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <h3>Diagnosis Result</h3>
+                    </div>
+                    <div class="prediction-content">
+                        <div class="disease-name" id="diseaseName">-</div>
+                        <div class="severity-badge" id="severityBadge">
+                            <span class="severity-normal">Normal</span>
+                        </div>
+
+                        <!-- Radial Confidence Gauge -->
+                        <div class="confidence-gauge" id="confidenceGauge">
+                            <svg viewBox="0 0 140 140">
+                                <circle class="gauge-bg" cx="70" cy="70" r="65"/>
+                                <circle class="gauge-fill" id="gaugeFill" cx="70" cy="70" r="65"/>
+                            </svg>
+                            <div class="gauge-center">
+                                <span class="gauge-value" id="gaugeValue">0%</span>
+                                <span class="gauge-label">Confidence</span>
+                            </div>
+                        </div>
+
+                        <div class="prediction-badge" id="predictionBadge">
+                            <i class="fa-solid fa-check-circle"></i>
+                            <span id="confidenceLevel">High Confidence</span>
+                        </div>
+                        <div class="image-quality" id="imageQuality">
+                            <i class="fa-solid fa-image"></i>
+                            <span>Quality: -</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Triage Dashboard Card -->
+                <div class="triage-card" id="triageCard" style="display: none;">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fbbf24, #f43f5e);">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h3>Clinical Triage Assessment</h3>
+                    </div>
+                    <div class="triage-content">
+                        <div class="triage-gauge">
+                            <div class="urgency-ring">
+                                <svg viewBox="0 0 160 160">
+                                    <circle class="ring-bg" cx="80" cy="80" r="70"/>
+                                    <circle class="ring-fill" id="urgencyFill" cx="80" cy="80" r="70"/>
+                                </svg>
+                                <div class="urgency-center">
+                                    <span class="urgency-score" id="urgencyScore">0</span>
+                                    <span class="urgency-label-text">Urgency</span>
+                                </div>
+                            </div>
+                            <div class="urgency-level-badge" id="urgencyBadge">LOW</div>
+                        </div>
+                        <div class="triage-details">
+                            <h4><i class="fa-solid fa-clipboard-list"></i> Clinical Notes</h4>
+                            <div class="clinical-notes" id="clinicalNotes"></div>
+                            <div class="triage-timestamp" id="triageTimestamp"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Differential Diagnoses -->
+                <div class="result-card differential-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #818cf8, #6366f1);">
+                            <i class="fa-solid fa-list-ol"></i>
+                        </div>
+                        <h3>Differential Diagnoses</h3>
+                    </div>
+                    <div class="differential-list" id="differentialList"></div>
+                </div>
+
+                <!-- CHANGE 1: Advanced Result Visualization -->
+                <div class="result-card viz-card" id="vizCard">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fbbf24, #06b6d4);">
+                            <i class="fa-solid fa-chart-column"></i>
+                        </div>
+                        <h3>Prediction Analytics</h3>
+                    </div>
+                    <!-- Risk Level Indicator -->
+                    <div class="risk-indicator" id="riskIndicator">
+                        <div class="risk-label">Risk Level</div>
+                        <div class="risk-badge" id="riskBadge">LOW</div>
+                        <div class="risk-meter">
+                            <div class="risk-meter-fill" id="riskMeterFill"></div>
+                        </div>
+                    </div>
+                    <!-- Bar Chart -->
+                    <div class="chart-wrapper">
+                        <h4><i class="fa-solid fa-chart-bar"></i> Class Probabilities</h4>
+                        <canvas id="probBarChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Explanation Card -->
+                <div class="result-card explanation-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #34d399, #06b6d4);">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </div>
+                        <h3>Disease Explanation</h3>
+                    </div>
+                    <div class="explanation-content">
+                        <p class="disease-description" id="diseaseDescription"></p>
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <button class="accordion-header" aria-expanded="false">
+                                    <i class="fa-solid fa-virus"></i>
+                                    Causes
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <ul id="causesList"></ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header" aria-expanded="false">
+                                    <i class="fa-solid fa-thermometer-full"></i>
+                                    Symptoms
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <ul id="symptomsList"></ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header" aria-expanded="false">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    Risk Factors
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <ul id="riskFactorsList"></ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header" aria-expanded="false">
+                                    <i class="fa-solid fa-pills"></i>
+                                    Treatment
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <ul id="treatmentList"></ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header" aria-expanded="false">
+                                    <i class="fa-solid fa-shield-heart"></i>
+                                    Prevention
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-body">
+                                    <ul id="preventionList"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hospitals Card — Live Nearby Hospitals with Map -->
+                <div class="result-card hospitals-card" id="hospitalsCard">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #fb7185, #fbbf24);">
+                            <i class="fa-solid fa-hospital"></i>
+                        </div>
+                        <h3>Nearby Hospitals</h3>
+                        <button class="btn btn-secondary" id="refreshHospitalsBtn" style="margin-left:auto; padding:6px 14px; font-size:12px;">
+                            <i class="fa-solid fa-rotate"></i> Refresh
+                        </button>
+                    </div>
+
+                    <!-- Location status -->
+                    <div class="location-status" id="locationStatus">
+                        <div class="location-loading">
+                            <div class="loader" style="width:20px;height:20px;"></div>
+                            <span>Detecting your location...</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Map -->
+                    <div id="hospitalMap" style="height:350px; border-radius:12px; margin-bottom:16px; background:#1a2340; display:none;"></div>
+
+                    <!-- Radius selector with slider -->
+                    <div class="radius-selector" id="radiusSelector" style="display:none;">
+                        <label style="font-size:13px; color:var(--text-muted); margin-right:8px;">Search radius:</label>
+                        <select id="searchRadius" class="filter-select" style="width:auto; padding:6px 12px; font-size:13px;">
+                            <option value="2000">2 km</option>
+                            <option value="5000">5 km</option>
+                            <option value="10000" selected>10 km</option>
+                            <option value="20000">20 km</option>
+                            <option value="30000">30 km</option>
+                            <option value="50000">50 km</option>
+                            <option value="100000">100 km</option>
+                        </select>
+                        <span id="radiusLabel" style="font-size:12px; color:#06b6d4; font-weight:600; margin-left:6px;">10 km radius</span>
+                    </div>
+
+                    <div class="hospitals-content">
+                        <div class="hospitals-list" id="hospitalsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn btn-secondary" id="downloadReportBtn" aria-label="Download PDF report">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    Download Report
+                </button>
+                <button class="btn btn-secondary" id="consultationBtn" aria-label="Request consultation">
+                    <i class="fa-solid fa-user-md"></i>
+                    Request Consultation
+                </button>
+                <button class="btn btn-secondary" id="feedbackBtn" aria-label="Submit feedback">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    Feedback
+                </button>
+                <button class="btn btn-primary" id="newAnalysisBtn" aria-label="Start new analysis">
+                    <i class="fa-solid fa-plus"></i>
+                    New Analysis
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Dashboard -->
+    <section class="analytics-section section-animate" id="analytics">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Platform <span class="gradient-text">Analytics</span></h2>
+                <p class="section-subtitle">Real-time insights from all diagnostic analyses</p>
+            </div>
+
+            <div class="analytics-grid" id="analyticsGrid">
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fa-solid fa-microscope"></i></div>
+                    <div class="stat-card-value" id="statTotal">0</div>
+                    <div class="stat-card-label">Total Scans</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <div class="stat-card-value" id="statConfidence">0%</div>
+                    <div class="stat-card-label">Avg Confidence</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="stat-card-value" id="statValid">0</div>
+                    <div class="stat-card-label">Valid Images</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon"><i class="fa-solid fa-chart-pie"></i></div>
+                    <div class="stat-card-value" id="statConditions">0</div>
+                    <div class="stat-card-label">Conditions Found</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h4><i class="fa-solid fa-chart-pie"></i> Scans by Modality</h4>
+                    <div style="display: flex; align-items: center; gap: 32px; justify-content: center; flex-wrap: wrap;">
+                        <div class="donut-chart" id="donutChart">
+                            <div class="donut-center">
+                                <span class="donut-total" id="donutTotal">0</span>
+                                <span class="donut-label">Total</span>
+                            </div>
+                        </div>
+                        <div class="donut-legend" id="donutLegend"></div>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h4><i class="fa-solid fa-chart-bar"></i> Top Conditions</h4>
+                    <div class="bar-chart" id="barChart">
+                        <div style="text-align: center; color: var(--text-muted); padding: 40px;">
+                            <i class="fa-solid fa-chart-simple" style="font-size: 36px; margin-bottom: 12px; display: block;"></i>
+                            No data yet — analyze images to see trends
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Collaboration Section -->
+    <section class="collab-section section-animate" id="collab">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Real-time <span class="gradient-text">Collaboration</span></h2>
+                <p class="section-subtitle">Collaborate with colleagues in real-time on medical image analysis</p>
+            </div>
+
+            <div class="collab-container">
+                <!-- Session Controls -->
+                <div class="collab-controls">
+                    <div class="collab-create">
+                        <h4><i class="fa-solid fa-plus-circle"></i> Start or Join Session</h4>
+                        <div class="collab-fields">
+                            <input type="text" id="collabUsername" placeholder="Your name" class="collab-input" aria-label="Collaboration username">
+                            <input type="text" id="collabSessionId" placeholder="Session ID (leave empty to create new)" class="collab-input" aria-label="Session ID">
+                            <select id="collabModality" class="collab-input" aria-label="Collaboration modality">
+                                <option value="xray">X-Ray</option>
+                                <option value="mri">MRI</option>
+                                <option value="ct">CT Scan</option>
+                            </select>
+                        </div>
+                        <div class="collab-actions">
+                            <button class="btn btn-primary" id="collabJoinBtn">
+                                <i class="fa-solid fa-link"></i>
+                                Join / Create Session
+                            </button>
+                            <button class="btn btn-secondary" id="collabLeaveBtn" style="display: none;">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Leave Session
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Session Status -->
+                    <div class="collab-status" id="collabStatus">
+                        <div class="status-indicator offline" id="collabIndicator">
+                            <span class="status-dot"></span>
+                            <span id="collabStatusText">Disconnected</span>
+                        </div>
+                        <div class="collab-session-info" id="collabSessionInfo" style="display: none;">
+                            <div class="session-id-display">
+                                <span>Session:</span>
+                                <code id="collabCurrentSession">—</code>
+                                <button class="copy-session-btn" id="copySessionBtn" title="Copy session ID">
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="online-users" id="onlineUsers">
+                                <i class="fa-solid fa-users"></i>
+                                <span id="onlineCount">0</span> online
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Panel -->
+                <div class="collab-chat" id="collabChat">
+                    <div class="chat-header">
+                        <h4><i class="fa-solid fa-comments"></i> Team Chat</h4>
+                        <div class="chat-badge" id="chatBadge">0</div>
+                    </div>
+                    <div class="chat-messages" id="collabMessages">
+                        <div class="chat-empty">
+                            <i class="fa-solid fa-comment-medical"></i>
+                            <p>Join a session to start collaborating</p>
+                        </div>
+                    </div>
+                    <div class="chat-input-area" id="chatInputArea">
+                        <input type="text" id="collabChatInput" placeholder="Type a message..." class="chat-input" disabled aria-label="Chat message">
+                        <button class="btn btn-primary chat-send-btn" id="collabSendBtn" disabled>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voice Assistant Section -->
+    <section class="voice-section section-animate" id="voice">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Voice <span class="gradient-text">Assistant</span></h2>
+                <p class="section-subtitle">Speak your health questions — AI listens, understands, and responds</p>
+            </div>
+
+            <div class="voice-container">
+                <!-- Mic Visualizer -->
+                <div class="voice-visualizer">
+                    <div class="mic-ring" id="micRing">
+                        <div class="mic-ring-pulse"></div>
+                        <button class="mic-button" id="micButton" aria-label="Start voice input">
+                            <i class="fa-solid fa-microphone" id="micIcon"></i>
+                        </button>
+                    </div>
+                    <div class="voice-status" id="voiceStatus">Tap the microphone to speak</div>
+                    <div class="voice-wave" id="voiceWave">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Transcript + Response -->
+                <div class="voice-output">
+                    <div class="voice-card transcript-card">
+                        <h4><i class="fa-solid fa-ear-listen"></i> What I heard</h4>
+                        <div class="transcript-text" id="voiceTranscript">Your speech will appear here...</div>
+                    </div>
+                    <div class="voice-card response-card">
+                        <h4><i class="fa-solid fa-robot"></i> AI Response</h4>
+                        <div class="response-text" id="voiceResponse">Ask a health question to get started</div>
+                        <button class="btn btn-secondary voice-speak-btn" id="speakResponseBtn" style="display: none;">
+                            <i class="fa-solid fa-volume-high"></i> Read Aloud
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Prompts -->
+                <div class="voice-prompts">
+                    <h4>Try saying:</h4>
+                    <div class="prompt-chips">
+                        <button class="prompt-chip" data-prompt="What are the symptoms of pneumonia?">
+                            <i class="fa-solid fa-lungs"></i> Pneumonia symptoms
+                        </button>
+                        <button class="prompt-chip" data-prompt="When should I get an MRI scan?">
+                            <i class="fa-solid fa-brain"></i> When to get MRI
+                        </button>
+                        <button class="prompt-chip" data-prompt="What does a CT scan show?">
+                            <i class="fa-solid fa-layer-group"></i> CT scan explained
+                        </button>
+                        <button class="prompt-chip" data-prompt="How to prevent tuberculosis?">
+                            <i class="fa-solid fa-shield-virus"></i> TB prevention
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHANGE 6: Enhanced History Section -->
+    <section class="history-section section-animate" id="history">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Prediction <span class="gradient-text">History</span></h2>
+                <p class="section-subtitle">View your past analysis results with full patient details</p>
+            </div>
+
+            <div class="history-filters">
+                <input type="text" id="historySearch" placeholder="Search by name or disease..." class="filter-select" style="flex:1;min-width:180px;" aria-label="Search history">
+                <select id="historyModality" class="filter-select" aria-label="Filter by modality">
+                    <option value="">All Modalities</option>
+                    <option value="xray">X-Ray</option>
+                    <option value="mri">MRI</option>
+                    <option value="ct">CT Scan</option>
+                </select>
+                <button class="btn btn-primary" id="loadHistoryBtn">
+                    <i class="fa-solid fa-search"></i>
+                    Load History
+                </button>
+            </div>
+
+            <div class="history-list" id="historyList">
+                <div class="history-empty">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <p>No prediction history yet — analyze an image to get started</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant Section -->
+    <section class="assistant-section section-animate" id="assistant">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">AI Health <span class="gradient-text">Assistant</span></h2>
+                <p class="section-subtitle">Get instant answers to your health questions</p>
+            </div>
+
+            <div class="assistant-container">
+                <div class="assistant-messages" id="assistantMessages">
+                    <div class="assistant-message bot">
+                        <div class="message-icon">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your MedScan AI Health Assistant. I can help you with:</p>
+                            <ul>
+                                <li>Understanding your symptoms</li>
+                                <li>Information about medical scans (X-ray, MRI, CT)</li>
+                                <li>General health advice</li>
+                                <li>Disease prevention tips</li>
+                            </ul>
+                            <p>How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="assistant-input">
+                    <input type="text" id="assistantInput" placeholder="Ask a health question..." aria-label="Health question input">
+                    <button class="btn btn-primary" id="sendMessageBtn" aria-label="Send message">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section section-animate" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About <span class="gradient-text">MedScan AI</span></h2>
+                <p class="section-subtitle">Bridging the gap between AI and healthcare</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Deep Learning Engine</h3>
+                    <p>CNN-based models trained on thousands of medical images for multi-modality diagnosis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #fbbf24, #fb923c);">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h3>Clinical Triage</h3>
+                    <p>Automated urgency scoring with clinical notes and next-step guidance for every scan.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #34d399, #06b6d4);">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3>Instant Results</h3>
+                    <p>Get comprehensive diagnosis within seconds with explainable AI insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #818cf8, #6366f1);">
+                        <i class="fa-solid fa-file-medical-alt"></i>
+                    </div>
+                    <h3>PDF Reports</h3>
+                    <p>Download professional medical reports for your records and doctor consultations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #fb7185, #f43f5e);">
+                        <i class="fa-solid fa-hospital-user"></i>
+                    </div>
+                    <h3>Smart Referrals</h3>
+                    <p>AI-matched hospital recommendations with one-click directions and contact.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #a78bfa, #818cf8);">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3>Image Enhancement</h3>
+                    <p>Advanced CLAHE, edge detection, and histogram equalization with before/after comparison.</p>
+                </div>
+            </div>
+
+            <div class="supported-modalities">
+                <h3>Supported Imaging Modalities</h3>
+                <div class="modality-list">
+                    <div class="modality-item">
+                        <i class="fa-solid fa-x-ray"></i>
+                        <span>X-Ray</span>
+                        <small>Pneumonia, TB, COVID-19</small>
+                    </div>
+                    <div class="modality-item">
+                        <i class="fa-solid fa-brain"></i>
+                        <span>MRI</span>
+                        <small>Brain Tumor, Alzheimer's</small>
+                    </div>
+                    <div class="modality-item">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>CT Scan</span>
+                        <small>Lung Tumor, Bone Fracture</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <span>MedScan AI</span>
+                    </a>
+                    <p>Next-generation AI-powered medical imaging intelligence platform for clinical decision support.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <a href="#home">Home</a>
+                    <a href="#upload">Analyze</a>
+                    <a href="#analytics">Analytics</a>
+                    <a href="#history">History</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Modalities</h4>
+                    <a href="#upload">X-Ray Analysis</a>
+                    <a href="#upload">MRI Scan</a>
+                    <a href="#upload">CT Scan</a>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MedScan AI. All rights reserved. Press <kbd style="padding:2px 6px;background:rgba(99,102,241,0.15);border-radius:4px;font-size:11px;color:#818cf8;">?</kbd> for keyboard shortcuts.</p>
+                <p class="disclaimer">Disclaimer: This is for demonstration purposes only. Not for medical use.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Consultation Modal -->
+    <div class="modal" id="consultationModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeConsultationModal">&times;</span>
+            <h2><i class="fa-solid fa-user-md"></i> Request Consultation</h2>
+            <!-- CHANGE 3: Consultation status display -->
+            <div id="consultationStatus" style="display:none;margin-bottom:16px;"></div>
+            <form id="consultationForm">
+                <input type="text" id="consName" placeholder="Your Name *" required>
+                <input type="email" id="consEmail" placeholder="Email Address *" required>
+                <input type="tel" id="consPhone" placeholder="Phone Number">
+                <textarea id="consSymptoms" placeholder="Describe your symptoms..." rows="3"></textarea>
+                <textarea id="consNotes" placeholder="Additional notes..." rows="2"></textarea>
+                <button type="submit" class="btn btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="modal" id="feedbackModal">
+        <div class="modal-content">
+            <span class="modal-close" id="closeFeedbackModal">&times;</span>
+            <h2><i class="fa-solid fa-comment-dots"></i> Submit Feedback</h2>
+            <form id="feedbackForm">
+                <!-- CHANGE 4: Added name field for email -->
+                <input type="text" id="feedbackName" placeholder="Your Name (optional)">
+                <select id="feedbackType" required>
+                    <option value="">Select Feedback Type *</option>
+                    <option value="accurate">Accurate Diagnosis</option>
+                    <option value="inaccurate">Inaccurate Diagnosis</option>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="other">Other</option>
+                </select>
+                <select id="feedbackRating">
+                    <option value="">Rate this prediction (1-5)</option>
+                    <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                    <option value="4">⭐⭐⭐⭐ Good</option>
+                    <option value="3">⭐⭐⭐ Average</option>
+                    <option value="2">⭐⭐ Poor</option>
+                    <option value="1">⭐ Very Poor</option>
+                </select>
+                <textarea id="feedbackComment" placeholder="Your comments..." rows="3"></textarea>
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Overlay -->
+    <div class="shortcuts-overlay" id="shortcutsOverlay">
+        <div class="shortcuts-content">
+            <h3><i class="fa-solid fa-keyboard"></i> Keyboard Shortcuts</h3>
+            <div class="shortcut-list">
+                <div class="shortcut-item">
+                    <span>Upload image</span>
+                    <span class="shortcut-key"><kbd>Ctrl</kbd><kbd>U</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Analyze image</span>
+                    <span class="shortcut-key"><kbd>Ctrl</kbd><kbd>↵</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Close modal / overlay</span>
+                    <span class="shortcut-key"><kbd>Esc</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Show shortcuts</span>
+                    <span class="shortcut-key"><kbd>?</kbd></span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Focus assistant</span>
+                    <span class="shortcut-key"><kbd>Ctrl</kbd><kbd>K</kbd></span>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px; font-size: 12px; color: var(--text-muted);">Press <kbd style="padding:2px 6px;background:rgba(99,102,241,0.15);border-radius:4px;font-size:11px;color:#818cf8;">Esc</kbd> to close</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
